@@ -9,7 +9,6 @@ from .slogan_manager import SloganManager
 
 
 class SloganManagerTest(TestCase):
-
     def test_init(self):
         with NamedTemporaryFile() as test_db:
             SloganManager(test_db.name)
@@ -21,7 +20,8 @@ class SloganManagerTest(TestCase):
                 assert cursor.fetchone()[0] == 'slogan'
 
     def test_md5(self):
-        assert SloganManager.get_md5('test') == '098f6bcd4621d373cade4e832627b4f6'
+        assert SloganManager.get_md5(
+            'test') == '098f6bcd4621d373cade4e832627b4f6'
 
     def test_create(self):
         with NamedTemporaryFile() as test_db:

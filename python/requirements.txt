@@ -4,3 +4,4 @@ asyncpg
 pytest
 yapf
 flake8
+isort
