@@ -30,9 +30,7 @@ class ClientManager(object):
 
     async def deactivate(self, identifier):
         conn = await asyncpg.connect(connection_url())
-        await conn.execute(
-            'UPDATE client SET active = FALSE where identifier = $1',
-            identifier)
+        await conn.execute('UPDATE client SET active = FALSE where identifier = $1', identifier)
 
     async def deactivate_all(self):
         conn = await asyncpg.connect(connection_url())
@@ -41,6 +39,5 @@ class ClientManager(object):
     async def list(self):
         'Return count of active clients'
         conn = await asyncpg.connect(connection_url())
-        res = await conn.fetch(
-            'select fd, identifier from client where active = TRUE')
+        res = await conn.fetch('select fd, identifier from client where active = TRUE')
         return ['{}:{}'.format(p['fd'], p['identifier']) for p in res]

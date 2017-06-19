@@ -73,17 +73,13 @@ class SloganManager(object):
             await conn.execute(
                 'UPDATE slogan SET rented_on = $1, rented_by = $2 WHERE id = (SELECT id FROM slogan WHERE rented_on IS NULL LIMIT 1)',
                 datetime.now(), rented_by)
-            return await conn.fetchrow(
-                'SELECT id, title FROM slogan WHERE rented_by = $1', rented_by)
+            return await conn.fetchrow('SELECT id, title FROM slogan WHERE rented_by = $1', rented_by)
 
     async def _allow_renting(self, conn, rented_by):
-        has_rented = await conn.fetchrow(
-            'SELECT 1 FROM slogan WHERE rented_by = $1', rented_by)
+        has_rented = await conn.fetchrow('SELECT 1 FROM slogan WHERE rented_by = $1', rented_by)
         if has_rented:
-            print('adf')
             return False
-        rent_available = await conn.fetchrow(
-            'SELECT 1 FROM slogan WHERE rented_on IS NULL')
+        rent_available = await conn.fetchrow('SELECT 1 FROM slogan WHERE rented_on IS NULL')
         if rent_available:
             return True
         return False
@@ -102,10 +98,8 @@ class SloganManager(object):
     async def list(self):
         results = []
         conn = await asyncpg.connect(connection_url())
-        raw = await conn.fetch('select title, rented_on, rented_by from slogan'
-                               )
+        raw = await conn.fetch('select title, rented_on, rented_by from slogan')
         for row in raw:
-            status = 'not rented' if not row[1] else 'rented by {}'.format(
-                row[2])
+            status = 'not rented' if not row[1] else 'rented by {}'.format(row[2])
             results.append('{} - {}'.format(row[0], status))
         return results

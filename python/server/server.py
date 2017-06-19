@@ -24,8 +24,7 @@ CLRF = '\r\n'
 class SloganProtocol(asyncio.Protocol):
     def __init__(self):
         self.loop = asyncio.get_event_loop()
-        self.identifier = ''.join(
-            random.choice(string.ascii_lowercase) for i in range(8))
+        self.identifier = ''.join(random.choice(string.ascii_lowercase) for i in range(8))
 
     def connection_made(self, transport):
         print('new connection: {}'.format(transport.get_extra_info('socket')))
@@ -35,8 +34,7 @@ class SloganProtocol(asyncio.Protocol):
         asyncio.ensure_future(self.add_client())
 
     def connection_lost(self, exc):
-        print('closed connection: {}'.format(
-            self.transport.get_extra_info('socket')))
+        print('closed connection: {}'.format(self.transport.get_extra_info('socket')))
         self.transport = None
         self.slogan_manager = None
         asyncio.ensure_future(self.deactivate_client())
@@ -85,8 +83,7 @@ class SloganProtocol(asyncio.Protocol):
 
     async def expire_rent_async(self, slogan_id):
         await self.slogan_manager.expire(slogan_id)
-        self.transport.write(
-            'Slogan id {} has expired'.format(slogan_id).encode('utf-8'))
+        self.transport.write('Slogan id {} has expired'.format(slogan_id).encode('utf-8'))
         self.transport.write(CLRF.encode('utf-8'))
 
     async def add(self, slogan):
