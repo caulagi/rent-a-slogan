@@ -1,0 +1,6 @@
+uvloop
+asyncpg
+
+pytest
+yapf
+flake8
