@@ -57,24 +57,24 @@ class SloganProtocol(asyncio.Protocol):
 
     async def status(self):
         res = await self.slogan_manager.list()
-        self.transport.write('Slogans: {}'.format(CLRF).encode('utf-8'))
-        self.transport.write(CLRF.join(res).encode('utf-8'))
-        self.transport.write(CLRF.encode('utf-8'))
+        self.transport.write('Slogans: {}'.format(CLRF).encode())
+        self.transport.write(CLRF.join(res).encode())
+        self.transport.write(CLRF.encode())
         asyncio.ensure_future(self.status_clients())
 
     async def status_clients(self):
         res = await self.client_manager.list()
-        self.transport.write('Clients: {}'.format(CLRF).encode('utf-8'))
-        self.transport.write(CLRF.join(res).encode('utf-8'))
-        self.transport.write(CLRF.encode('utf-8'))
+        self.transport.write('Clients: {}'.format(CLRF).encode())
+        self.transport.write(CLRF.join(res).encode())
+        self.transport.write(CLRF.encode())
 
     async def rent(self):
         status, res = await self.slogan_manager.rent(self.identifier)
         if not status:
-            self.transport.write('{}{}'.format(res, CLRF).encode('utf-8'))
+            self.transport.write('{}{}'.format(res, CLRF).encode())
             return
-        self.transport.write('OK: id:{} title:{}'.format(res['id'], res['title']).encode('utf-8'))
-        self.transport.write(CLRF.encode('utf-8'))
+        self.transport.write('OK: id:{} title:{}'.format(res['id'], res['title']).encode())
+        self.transport.write(CLRF.encode())
         self.loop.call_later(self.slogan_manager.EXPIRE_AFTER_SECONDS,
                              partial(self.expire_rent, res['id']))
 
@@ -83,13 +83,13 @@ class SloganProtocol(asyncio.Protocol):
 
     async def expire_rent_async(self, slogan_id):
         await self.slogan_manager.expire(slogan_id)
-        self.transport.write('Slogan id {} has expired'.format(slogan_id).encode('utf-8'))
-        self.transport.write(CLRF.encode('utf-8'))
+        self.transport.write('Slogan id {} has expired'.format(slogan_id).encode())
+        self.transport.write(CLRF.encode())
 
     async def add(self, slogan):
         _, res = await self.slogan_manager.create(slogan)
-        self.transport.write(res.encode('utf-8'))
-        self.transport.write(CLRF.encode('utf-8'))
+        self.transport.write(res.encode())
+        self.transport.write(CLRF.encode())
 
     def run_cmd(self, cmd, slogan=None):
         cmd = cmd.lower()
