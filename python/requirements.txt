@@ -1,7 +1,7 @@
-uvloop
-asyncpg
+uvloop==0.8.0
+asyncpg==0.11.0
 
-pytest
-yapf
-flake8
-isort
+pytest==3.1.2
+yapf==0.16.2
+flake8==3.3.0
+isort==4.2.15
