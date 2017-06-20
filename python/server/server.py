@@ -110,6 +110,12 @@ async def initialize_tables():
     await cm.deactivate_all()
 
 
+async def print_debug(loop):
+    while True:
+        loop.print_debug_info()
+        await asyncio.sleep(2, loop=loop)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', default=25001, type=int)
@@ -121,6 +127,8 @@ if __name__ == '__main__':
     asyncio.set_event_loop(loop)
 
     loop.set_debug(args.debug)
+    # if hasattr(loop, 'print_debug_info'):
+    #     loop.create_task(print_debug(loop))
 
     coro = loop.create_server(SloganProtocol, *('127.0.0.1', args.port))
     loop.run_until_complete(coro)
@@ -131,7 +139,8 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
     finally:
-        gc.collect()
-        # if args.debug:
-        #     loop.print_debug_info()
+        if hasattr(loop, 'print_debug_info'):
+            gc.collect()
+            if args.debug:
+                loop.print_debug_info()
         loop.close()
