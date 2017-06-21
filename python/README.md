@@ -1,19 +1,11 @@
 # rent-a-slogan
 
-A highly performant, evented, system for renting slogans!
+A Python solution using uvloop and asyncpg.  The recommended python
+version is **3.6.x**.
 
-    * Clients can add a slogan
-    * Clients can rent a slogan for 15 seconds
-    * Clients can ask for status of rental system
+## Running locally
 
-## Setup
-
-The recommended python version is **3.6.x**. If you don't have Python3.6 locally,
-try the docker version below.
-
-### Running locally
-
-```
+```bash
 $ docker volume create rent-slogan
 $ docker run \
     -v rent-slogan:/var/lib/postgresql/data \
@@ -27,10 +19,6 @@ $ source ~/.venv/ras/bin/activate
 
 $ python server.py
 ```
-
-## Design
-
-TODO
 
 ## Tests
 
