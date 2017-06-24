@@ -1,6 +1,6 @@
 [submodule "python"]
 	path = python
-	url = git@github.com:caulagi/py-ras
+	url = https://github.com/caulagi/py-ras
 [submodule "rust"]
 	path = rust
-	url = git@github.com:caulagi/rs-ras
+	url = https://github.com/caulagi/rs-ras
